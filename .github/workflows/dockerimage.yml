@@ -20,4 +20,6 @@ jobs:
       - name: Dump GITHUB REF
         run: echo "${GITHUB_REF}"
       - name: Build the Docker image
-        run: docker build --build-arg BRANCH=$(echo ${GITHUB_REF} | awk -F '/' '{ print $3 }') . --file Dockerfile --tag my-image-name:$(date +%s)
+        env:
+          TAG: ${{GITHUB_REF}}
+        run: docker build --build-arg BRANCH=$(echo $TAG | awk -F '/' '{ print $3 }') . --file Dockerfile --tag tdlib:$(echo $TAG | awk -F '/' '{ print $3 }')
