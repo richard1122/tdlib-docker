@@ -2,7 +2,7 @@ name: BuildDockerImage
 
 on:
   release:
-    types: [published, created, edited]
+    types: [created, edited]
 
 jobs:
   one:
