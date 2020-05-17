@@ -1,4 +1,5 @@
-FROM alpine:3.9 as builder
+FROM alpine as builder
+ARG BRANCH v1.3.0
 
 RUN apk add --no-cache \
     gperf \
@@ -10,7 +11,7 @@ RUN apk add --no-cache \
 
 WORKDIR /tmp/_build_tdlib/
 
-RUN git clone https://github.com/tdlib/td.git /tmp/_build_tdlib/ --branch v1.3.0
+RUN git clone https://github.com/tdlib/td.git /tmp/_build_tdlib/ --branch ${BRANCH}
 
 RUN mkdir build
 WORKDIR /tmp/_build_tdlib/build/
@@ -20,7 +21,7 @@ RUN cmake --build .
 RUN make install
 
 
-FROM alpine:3.9
+FROM alpine
 
 COPY --from=builder /usr/local/lib/libtd* /usr/local/lib/
 
